@@ -47,7 +47,6 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'preservim/nerdtree'
-"Plugin 'preservim/nerdcommenter'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jiangmiao/auto-pairs'
@@ -60,10 +59,11 @@ Plugin 'APZelos/blamer.nvim'
 Plugin 'morhetz/gruvbox'
 Plugin 'posva/vim-vue'
 Plugin 'christoomey/vim-tmux-navigator'
-" Plugin 'tpope/vim-commentary'
+Plugin 'prabirshrestha/vim-lsp'
+Plugin 'mattn/vim-lsp-settings'
 Plugin 'tomtom/tcomment_vim'
-"Plugin 'mattn/vim-lsp-settings'
-"Plugin 'prabirshrestha/vim-lsp'
+"Plugin 'preservim/nerdcommenter'
+" Plugin 'tpope/vim-commentary'
 "Plugin 'ycm-core/YouCompleteMe'
 "Plugin 'dense-analysis/ale'
 "Plugin 'fatih/vim-go'
@@ -133,7 +133,7 @@ set background=dark
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 hi LineNr term=bold cterm=bold ctermfg=8 guifg=Grey guibg=grey9
-hi MatchParen term=bold cterm=bold ctermfg=Cyan ctermbg=DarkGrey 
+hi MatchParen term=bold cterm=bold ctermfg=Cyan ctermbg=DarkGrey
 "hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkred guifg=white
 
 "===== emmet-vim ====="
@@ -272,7 +272,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "===== vim-lsp ====="
 let g:lsp_log_file = expand('~/lsp-log.log')
 nmap <buffer> <leader>z <plug>(lsp-definition)
-
+let g:lsp_settings_filetype_javascript=['typescript-language-server']
 " Register ccls C++ lanuage server.
 if executable('ccls')
    au User lsp_setup call lsp#register_server({
@@ -284,15 +284,24 @@ if executable('ccls')
       \ })
 endif
 
-"if executable('typescript-language-server')
-  "autocmd User lsp_setup call lsp#register_server({
-    "\ 'name': 'typescript-language-server',
-    "\'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']}
-    "\ 'allowlist': ['javascript', 'typescript'],
-    "\  })
-"endif
+" if executable('typescript-language-server')
+"   autocmd User lsp_setup call lsp#register_server({
+"     \ 'name': 'typescript-language-server',
+"     \'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']}
+"     \ 'allowlist': ['javascript', 'typescript'],
+"     \  })
+" endif
 
 "===== Vim-go ====="
 "let g:go_bin_path = "/home/jason/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/go/bin
-autocmd FileType apache setlocal commentstring=#\ %s
-autocmd FileType vue setlocal commentstring={/*\ %s\ */}
+
+nnoremap <leader>dd :LspDefinition<cr>
+nnoremap <leader>dn :LspNextDiagnostic<cr>
+nnoremap <leader>dp :LspPreviousDiagnostic<cr>
+nnoremap <leader>df :LspReferences<cr>
+nnoremap <leader>ds :LspStopServer<cr>
+nnoremap <leader>dp :LspPeekDefinition<cr>
+nnoremap <leader>da :LspCodeAction<cr>
+nnoremap <leader>dh :LspHover<cr>
+
+let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -o -print'
