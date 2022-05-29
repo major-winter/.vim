@@ -118,7 +118,7 @@ set nobackup
 set nowb
 
 """""""""""""""""""""""""""""""""
-"           vim-fugitive        "
+"         vim-fugitive          "
 """""""""""""""""""""""""""""""""
 
 "===== Vim-fugitive ====="
@@ -141,6 +141,7 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 hi LineNr term=bold cterm=bold ctermfg=8 guifg=Grey guibg=grey9
 hi MatchParen term=bold cterm=bold ctermfg=Cyan ctermbg=DarkGrey
+hi Visual term=bold cterm=bold ctermfg=LightMagenta ctermbg=DarkGrey
 "hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkred guifg=white
 
 "===== emmet-vim ====="
@@ -148,7 +149,7 @@ hi MatchParen term=bold cterm=bold ctermfg=Cyan ctermbg=DarkGrey
 
 """""""""""""""""""""""""""""""""
 "             YCM               "
- """"""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""
 " let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/start/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 " nnoremap <silent> <leader>go :YcmCompleter GoToDefinition<CR>
 " nnoremap <silent> <leader>re :YcmCompleter GoToReferences<CR>
@@ -287,6 +288,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 let g:lsp_log_file = expand('~/lsp-log.log')
 nmap <buffer> <leader>z <plug>(lsp-definition)
 let g:lsp_settings_filetype_javascript=['typescript-language-server']
+let g:lsp_settings_filetype_vue=['volar-server','typescript-language-server']
 " Register ccls C++ lanuage server.
 if executable('ccls')
    au User lsp_setup call lsp#register_server({
@@ -306,6 +308,9 @@ endif
 "     \  })
 " endif
 
+""""""""""""""""""""""""""""""""
+"    vim-lsp keybindings       "
+""""""""""""""""""""""""""""""""
 nnoremap <leader>dd :LspDefinition<cr>
 nnoremap <leader>dn :LspNextDiagnostic<cr>
 nnoremap <leader>dp :LspPreviousDiagnostic<cr>
