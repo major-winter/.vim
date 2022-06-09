@@ -117,18 +117,9 @@ set noswapfile
 set nobackup
 set nowb
 
-"""""""""""""""""""""""""""""""""
-"         vim-fugitive          "
-"""""""""""""""""""""""""""""""""
-
-"===== Vim-fugitive ====="
-"nnoremap <leader>gd :G diff %<CR>
-
-
 "===== Nerdtree ====="
 nnoremap <leader>no :NERDTreeToggle<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
-
 
 " Show hidden file by default
 let NERDTreeShowHidden=1
@@ -144,8 +135,90 @@ hi MatchParen term=bold cterm=bold ctermfg=Cyan ctermbg=DarkGrey
 hi Visual term=bold cterm=bold ctermfg=LightMagenta ctermbg=DarkGrey
 "hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkred guifg=white
 
-"===== emmet-vim ====="
-"let g:user_emmet_leader_key='.'
+""""""""""""""""""""""""""""""""
+"         vim-airline          "
+""""""""""""""""""""""""""""""""
+let g:airline_theme="everforest"
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ' :'
+let g:airline_symbols.dirty='⚡'
+let g:airline_symbols.colnr = ' Col:'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.maxlinenr = '㏑'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = 'Ɇ'
+let g:airline_symbols.whitespace = 'Ξ'
+let g:airline#extensions#hunks#enabled = 1
+let g:airline#extensions#hunks#non_zero_only = 0
+let g:airline_section_y=''
+" let g:airline_symbols.branch = '⎇'
+
+""""""""""""""""""""""""""""""""
+"      Coc code navigation     "
+""""""""""""""""""""""""""""""""
+"nmap <buffer> <C-j>d <Plug>(coc-definition)
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>gr <Plug>(coc-references)
+vmap <leader>fo <Plug>(coc-format-selected)
+nmap <leader>fo <Plug>(coc-format-selected)
+
+inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+""""""""""""""""""""""""""""""""
+"           vim-lsp            "
+""""""""""""""""""""""""""""""""
+let g:lsp_log_file = expand('~/lsp-log.log')
+nmap <buffer> <leader>z <plug>(lsp-definition)
+let g:lsp_settings_filetype_javascript=['typescript-language-server']
+let g:lsp_settings_filetype_vue=['volar-server']
+" Register ccls C++ lanuage server.
+if executable('ccls')
+   au User lsp_setup call lsp#register_server({
+      \ 'name': 'ccls',
+      \ 'cmd': {server_info->['ccls']},
+      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+      \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+      \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+      \ })
+endif
+
+" if executable('typescript-language-server')
+"   autocmd User lsp_setup call lsp#register_server({
+"     \ 'name': 'typescript-language-server',
+"     \'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']}
+"     \ 'allowlist': ['javascript', 'typescript'],
+"     \  })
+" endif
+
+""""""""""""""""""""""""""""""""
+"    vim-lsp keybindings       "
+""""""""""""""""""""""""""""""""
+nnoremap <leader>dd :LspDefinition<cr>
+nnoremap <leader>dn :LspNextDiagnostic<cr>
+nnoremap <leader>dp :LspPreviousDiagnostic<cr>
+nnoremap <leader>df :LspReferences<cr>
+nnoremap <leader>ds :LspSignatureHelp<cr>
+nnoremap <leader>dp :LspPeekDefinition<cr>
+nnoremap <leader>da :LspCodeAction<cr>
+nnoremap <leader>dh :LspHover<cr>
+
+""""""""""""""""""""""""""""""""
+"             FZF              "
+""""""""""""""""""""""""""""""""
+" set FZF respect .gitignore
+let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -o -print'
 
 """""""""""""""""""""""""""""""""
 "             YCM               "
@@ -172,6 +245,32 @@ hi Visual term=bold cterm=bold ctermfg=LightMagenta ctermbg=DarkGrey
 "     \ 'syntax': &filetype
 "     \ }
 " augroup END
+
+"===== Vimspector ====="
+" let g:vimspector_enable_mappings="HUMAN"
+" packadd! vimspector
+" nnoremap <leader>dl :call vimspector#Launch()<CR>
+" nmap <leader>di <Plug>VimspectorStepInto
+" nmap <leader>do <Plug>VimspectorStepOver
+" nmap <leader>du <Plug>VimspectorStepOut
+" nnoremap <leader>dr :call vimspector#Reset()<CR>
+" nnoremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
+" mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
+
+""""""""""""""""""""""""""""""""
+"           vim-go             "
+""""""""""""""""""""""""""""""""
+
+"let g:go_bin_path = "/home/jason/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/go/bin
+
+"===== Custom command for vimgrep ====="
+"command! -nargs=1 S execute 'vimgrep /<args>/g % | :cope'
+""ignore case /pattern\c/
+"command! -nargs=1 Si execute 'vimgrep /<args>\c/g % | :cope'
+"command! -nargs=1 Si execute 'vimgrep /<args>\c/g ** | :cope'
+
+"===== emmet-vim ====="
+"let g:user_emmet_leader_key='.'
 
 "===== ALE ====="
 " let g:ale_linters = {'cpp': ['clang', 'clangd'], "*": ["remove_trailing_lines"],
@@ -217,117 +316,8 @@ hi Visual term=bold cterm=bold ctermfg=LightMagenta ctermbg=DarkGrey
 " nnoremap ,html :-1read $HOME/.vim/snippets/html:5.html<CR>5jwf>a
 " nnoremap ,vue :-1read $HOME/.vim/snippets/base.vue<CR>1jwf>a
 
-""""""""""""""""""""""""""""""""
-"         vim-airline          "
-""""""""""""""""""""""""""""""""
-let g:airline_theme="everforest"
-let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_left_sep = ''
-let g:airline_right_sep = ' '
-let g:airline_symbols.branch = ''
-let g:airline_symbols.colnr = ' :'
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ' :'
-let g:airline_symbols.maxlinenr = '☰ '
-let g:airline_symbols.dirty='⚡'
-let g:airline_symbols.colnr = ' ㏇:'
-let g:airline_symbols.colnr = ' ℅:'
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.linenr = ' ␊:'
-let g:airline_symbols.linenr = ' ␤:'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.maxlinenr = '㏑'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = 'Ɇ'
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline#extensions#tabline#show_buffers = 1
 
-"===== Vimspector ====="
-" let g:vimspector_enable_mappings="HUMAN"
-" packadd! vimspector
-" nnoremap <leader>dl :call vimspector#Launch()<CR>
-" nmap <leader>di <Plug>VimspectorStepInto
-" nmap <leader>do <Plug>VimspectorStepOver
-" nmap <leader>du <Plug>VimspectorStepOut
-" nnoremap <leader>dr :call vimspector#Reset()<CR>
-" nnoremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
-" mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
-
-"===== Custom command for vimgrep ====="
-"command! -nargs=1 S execute 'vimgrep /<args>/g % | :cope'
-""ignore case /pattern\c/
-"command! -nargs=1 Si execute 'vimgrep /<args>\c/g % | :cope'
-"command! -nargs=1 Si execute 'vimgrep /<args>\c/g ** | :cope'
-
-""""""""""""""""""""""""""""""""
-"      Coc code navigation     "
-""""""""""""""""""""""""""""""""
-"nmap <buffer> <C-j>d <Plug>(coc-definition)
-nmap <silent> <leader>gd <Plug>(coc-definition)
-nmap <silent> <leader>gi <Plug>(coc-implementation)
-nmap <silent> <leader>gr <Plug>(coc-references)
-vmap <leader>fo <Plug>(coc-format-selected)
-nmap <leader>fo <Plug>(coc-format-selected)
-
-inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-""""""""""""""""""""""""""""""""
-"           vim-lsp            "
-""""""""""""""""""""""""""""""""
-let g:lsp_log_file = expand('~/lsp-log.log')
-nmap <buffer> <leader>z <plug>(lsp-definition)
-let g:lsp_settings_filetype_javascript=['typescript-language-server']
-let g:lsp_settings_filetype_vue=['volar-server','typescript-language-server']
-" Register ccls C++ lanuage server.
-if executable('ccls')
-   au User lsp_setup call lsp#register_server({
-      \ 'name': 'ccls',
-      \ 'cmd': {server_info->['ccls']},
-      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
-      \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-      \ })
-endif
-
-" if executable('typescript-language-server')
-"   autocmd User lsp_setup call lsp#register_server({
-"     \ 'name': 'typescript-language-server',
-"     \'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']}
-"     \ 'allowlist': ['javascript', 'typescript'],
-"     \  })
-" endif
-
-""""""""""""""""""""""""""""""""
-"    vim-lsp keybindings       "
-""""""""""""""""""""""""""""""""
-nnoremap <leader>dd :LspDefinition<cr>
-nnoremap <leader>dn :LspNextDiagnostic<cr>
-nnoremap <leader>dp :LspPreviousDiagnostic<cr>
-nnoremap <leader>df :LspReferences<cr>
-nnoremap <leader>ds :LspStopServer<cr>
-nnoremap <leader>dp :LspPeekDefinition<cr>
-nnoremap <leader>da :LspCodeAction<cr>
-nnoremap <leader>dh :LspHover<cr>
-
-""""""""""""""""""""""""""""""""
-"           vim-go             "
-""""""""""""""""""""""""""""""""
-
-"let g:go_bin_path = "/home/jason/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/go/bin
-
-""""""""""""""""""""""""""""""""
-"             FZF              "
-""""""""""""""""""""""""""""""""
-" set FZF respect .gitignore
-let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -o -print'
+"""""""""""""""""""""""""""""""""
+"         vim-fugitive          "
+"""""""""""""""""""""""""""""""""
+"nnoremap <leader>gd :G diff %<CR>
