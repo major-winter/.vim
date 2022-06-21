@@ -132,7 +132,7 @@ set background=dark
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 hi LineNr term=bold cterm=bold ctermfg=8 guifg=Grey guibg=grey9
-hi MatchParen term=bold cterm=bold ctermfg=Cyan ctermbg=DarkGrey
+hi MatchParen term=bold cterm=bold ctermfg=LightCyan ctermbg=Grey
 hi Visual term=bold cterm=bold ctermfg=LightMagenta ctermbg=DarkGrey
 "hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkred guifg=white
 
@@ -162,6 +162,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_section_y=''
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let airline#extensions#tabline#current_first = 1
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
