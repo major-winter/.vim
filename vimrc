@@ -93,7 +93,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 "===== Remap keys ====="
-inoremap ,, <esc>
+inoremap <leader><leader> <esc>
 vnoremap <leader><leader> <esc>
 nnoremap <leader>gh :diffget //3<CR>
 nnoremap <leader>gu :diffget //2<CR>
@@ -102,6 +102,7 @@ nnoremap <leader>vi :edit ~/.vim/vimrc<CR>
 map <Del> :w <CR> :!clear && g++ -g % -o %< && ./%< <CR>
 nnoremap <leader>b :ls<CR>:b<space>
 nnoremap <expr> <leader>f :vimgrep .input() \|<CR>
+nnoremap <leader>w <C-w>
 
 "===== resize windows ====="
 "nnoremap L :vertical res +10<CR>
@@ -163,6 +164,7 @@ let g:airline_section_y=''
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let airline#extensions#tabline#current_first = 1
+let g:airline#extensions#tabline#fnamemod = ":t"
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
