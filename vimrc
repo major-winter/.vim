@@ -21,7 +21,6 @@ set autoread
 set foldmethod=indent
 set nofoldenable
 set cursorline "highlight current line
-set omnifunc=syntaxcomplete#Complete
 set clipboard=unnamed,unnamedplus " Copy into *, + registers"
 set scrolloff=10
 set completeopt-=preview
@@ -36,6 +35,7 @@ set wildignore+=package_lock.json
 set wildignore+=*/*.scss/
 set wildignore+=*/node_modules/*
 set wildignore+=*/logs/*
+set omnifunc=syntaxcomplete#Complete
 "set wildmode=longest,list
 "set backspace=indent,eol,start
 
@@ -54,7 +54,6 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'prettier/vim-prettier', {'do': 'npm install'}
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'APZelos/blamer.nvim'
 Plugin 'morhetz/gruvbox'
@@ -64,6 +63,12 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'prabirshrestha/vim-lsp'
 Plugin 'mattn/vim-lsp-settings'
 Plugin 'tomtom/tcomment_vim'
+Plugin 'prabirshrestha/asyncomplete.vim'
+Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+" Plugin 'neovim/nvim-lspconfig'
+" Plugin 'jose-elias-alvarez/null-ls.nvim'
+" Plugin 'jose-elias-alvarez/nvim-lsp-ts-utils'
 "Plugin 'preservim/nerdcommenter'
 " Plugin 'tpope/vim-commentary'
 "Plugin 'ycm-core/YouCompleteMe'
@@ -101,7 +106,6 @@ nnoremap <leader>gs :G<CR>
 nnoremap <leader>vi :edit ~/.vim/vimrc<CR>
 map <Del> :w <CR> :!clear && g++ -g % -o %< && ./%< <CR>
 nnoremap <leader>b :ls<CR>:b<space>
-nnoremap <expr> <leader>f :vimgrep .input() \|<CR>
 nnoremap <leader>w <C-w>
 
 "===== resize windows ====="
@@ -164,7 +168,17 @@ let g:airline_section_y=''
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let airline#extensions#tabline#current_first = 1
-let g:airline#extensions#tabline#fnamemod = ":t"
+let g:airline#extensions#tabline#fnamemod = ':p:.'
+let g:airline#extensions#tabline#fnamecollapse = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#default#section_truncate_width = {
+    \ 'b': 79,
+    \ 'x': 60,
+    \ 'y': 88,
+    \ 'z': 45,
+    \ 'warning': 80,
+    \ 'error': 80,
+    \ }
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -182,24 +196,57 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 """"""""""""""""""""""""""""""""
 "      Coc code navigation     "
 """"""""""""""""""""""""""""""""
-"nmap <buffer> <C-j>d <Plug>(coc-definition)
-nmap <silent> <leader>gd <Plug>(coc-definition)
-nmap <silent> <leader>gi <Plug>(coc-implementation)
-nmap <silent> <leader>gr <Plug>(coc-references)
-vmap <leader>fo <Plug>(coc-format-selected)
-nmap <leader>fo <Plug>(coc-format-selected)
-
+" nmap <buffer> <C-j>d <Plug>(coc-definition)
+nmap <silent> <leader>dd <Plug>(coc-definition)
+nmap <silent> <leader>di <Plug>(coc-implementation)
+nmap <silent> <leader>dr <Plug>(coc-references)
+" vmap <leader>fo <Plug>(coc-format-selected)
+" nmap <leader>fo <Plug>(coc-format-selected)
+"
 inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+try
+    nmap <silent> [e :call CocAction('diagnosticNext')<cr>
+    nmap <silent> ]e :call CocAction('diagnosticPrevious')<cr>
+endtry
+
+" hi CocErrorSign ctermfg=DarkRed guibg=#d1666a
+" hi CocInfoSign guibg=#353b45
+" hi CocWarningSign guifg=#d1cd66 guibg=#d1cd66
+" hi CocErrorHighlight ctermfg=DarkRed  guifg=#ff0000
+" hi CocErrorLine ctermfg=DarkRed  guifg=#d1666a
+hi CocErrorVirtualText ctermfg=Red guibg=#d1666a
+" hi CocWarningVirtualText ctermfg=DarkRed  guifg=#ff0000
 
 """"""""""""""""""""""""""""""""
 "           vim-lsp            "
 """"""""""""""""""""""""""""""""
 let g:lsp_log_file = expand('~/lsp-log.log')
-nmap <buffer> <leader>z <plug>(lsp-definition)
 let g:lsp_settings_filetype_javascript=['typescript-language-server']
-let g:lsp_settings_filetype_vue=['volar-server']
+let g:lsp_settings_filetype_typescript=['typescript-language-server']
+" let g:lsp_settings_filetype_vue=['volar-server']
+autocmd BufRead,BufNewFile *.vue let b:asyncomplete_enable=0
 " Register ccls C++ lanuage server.
 if executable('ccls')
    au User lsp_setup call lsp#register_server({
@@ -214,7 +261,7 @@ endif
 " if executable('typescript-language-server')
 "   autocmd User lsp_setup call lsp#register_server({
 "     \ 'name': 'typescript-language-server',
-"     \'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']}
+"     \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']}
 "     \ 'allowlist': ['javascript', 'typescript'],
 "     \  })
 " endif
@@ -222,14 +269,17 @@ endif
 """"""""""""""""""""""""""""""""
 "    vim-lsp keybindings       "
 """"""""""""""""""""""""""""""""
-nnoremap <leader>dd :LspDefinition<cr>
-nnoremap <leader>dn :LspNextDiagnostic<cr>
-nnoremap <leader>dp :LspPreviousDiagnostic<cr>
-nnoremap <leader>df :LspReferences<cr>
-nnoremap <leader>ds :LspSignatureHelp<cr>
-nnoremap <leader>dp :LspPeekDefinition<cr>
-nnoremap <leader>da :LspCodeAction<cr>
-nnoremap <leader>dh :LspHover<cr>
+" nnoremap <leader>dd :LspDefinition<cr>
+" nnoremap <leader>dn :LspNextDiagnostic<cr>
+" nnoremap <leader>dp :LspPreviousDiagnostic<cr>
+" nnoremap <leader>df :LspReferences<cr>
+" nnoremap <leader>ds :LspSignatureHelp<cr>
+" nnoremap <leader>dp :LspPeekDefinition<cr>
+" nnoremap <leader>da :LspCodeAction<cr>
+" nnoremap <leader>dh :LspHover<cr>
+" inoremap <expr> <Tab>   pumvisible() ? '\<C-n>' : '\<Tab>'
+" inoremap <expr> <S-Tab> pumvisible() ? '\<C-p>' : '\<S-Tab>'
+" inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : '\<cr>'
 
 """"""""""""""""""""""""""""""""
 "             FZF              "
