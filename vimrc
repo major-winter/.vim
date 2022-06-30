@@ -236,7 +236,7 @@ endtry
 " hi CocWarningSign guifg=#d1cd66 guibg=#d1cd66
 " hi CocErrorHighlight ctermfg=DarkRed  guifg=#ff0000
 " hi CocErrorLine ctermfg=DarkRed  guifg=#d1666a
-hi CocErrorVirtualText ctermfg=Red guibg=#d1666a
+hi CocErrorVirtualText ctermfg=203 ctermbg=237
 " hi CocWarningVirtualText ctermfg=DarkRed  guifg=#ff0000
 
 """"""""""""""""""""""""""""""""
