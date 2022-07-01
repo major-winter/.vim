@@ -66,6 +66,7 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+Plugin 'mileszs/ack.vim'
 " Plugin 'neovim/nvim-lspconfig'
 " Plugin 'jose-elias-alvarez/null-ls.nvim'
 " Plugin 'jose-elias-alvarez/nvim-lsp-ts-utils'
@@ -208,6 +209,7 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 nnoremap <silent> K :call ShowDocumentation()<CR>
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
@@ -227,8 +229,8 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
 endif
 
 try
-    nmap <silent> [e :call CocAction('diagnosticNext')<cr>
-    nmap <silent> ]e :call CocAction('diagnosticPrevious')<cr>
+    nmap <silent> ]e :call CocAction('diagnosticNext')<cr>
+    nmap <silent> [e :call CocAction('diagnosticPrevious')<cr>
 endtry
 
 " hi CocErrorSign ctermfg=DarkRed guibg=#d1666a
