@@ -213,7 +213,7 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
+    call CocActionAsync('definitionHover')
   else
     call feedkeys('K', 'in')
   endif
