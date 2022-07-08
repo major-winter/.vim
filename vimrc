@@ -60,14 +60,14 @@ Plugin 'morhetz/gruvbox'
 Plugin 'sainnhe/everforest'
 Plugin 'posva/vim-vue'
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'prabirshrestha/vim-lsp'
-Plugin 'mattn/vim-lsp-settings'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'mileszs/ack.vim'
-" Plugin 'neovim/nvim-lspconfig'
+Plugin 'neovim/nvim-lspconfig'
+" Plugin 'prabirshrestha/vim-lsp'
+" Plugin 'mattn/vim-lsp-settings'
 " Plugin 'jose-elias-alvarez/null-ls.nvim'
 " Plugin 'jose-elias-alvarez/nvim-lsp-ts-utils'
 "Plugin 'preservim/nerdcommenter'
@@ -168,6 +168,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_section_y=''
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
 let airline#extensions#tabline#current_first = 1
 let g:airline#extensions#tabline#fnamemod = ':p:.'
 let g:airline#extensions#tabline#fnamecollapse = 1
@@ -201,6 +202,7 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <silent> <leader>dd <Plug>(coc-definition)
 nmap <silent> <leader>di <Plug>(coc-implementation)
 nmap <silent> <leader>dr <Plug>(coc-references)
+nmap <silent> <leader>dt <Plug>(coc-type-definition)
 " vmap <leader>fo <Plug>(coc-format-selected)
 " nmap <leader>fo <Plug>(coc-format-selected)
 "
@@ -390,3 +392,7 @@ let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -
 "         vim-fugitive          "
 """""""""""""""""""""""""""""""""
 "nnoremap <leader>gd :G diff %<CR>
+
+lua <<EOF
+-- print("Hello Lua")
+EOF
