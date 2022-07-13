@@ -61,11 +61,17 @@ Plugin 'sainnhe/everforest'
 Plugin 'posva/vim-vue'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'tomtom/tcomment_vim'
-Plugin 'prabirshrestha/asyncomplete.vim'
-Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'mileszs/ack.vim'
 Plugin 'neovim/nvim-lspconfig'
+Plugin 'ryanoasis/vim-devicons'
+" Plugin 'prabirshrestha/asyncomplete.vim'
+" Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+" Plugin 'ryanoasis/vim-devicons'
+" Plugin 'prabirshrestha/vim-lsp'
+" Plugin 'mattn/vim-lsp-settings'
+" Plugin 'prabirshrestha/asyncomplete.vim'
+" Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 " Plugin 'prabirshrestha/vim-lsp'
 " Plugin 'mattn/vim-lsp-settings'
 " Plugin 'jose-elias-alvarez/null-ls.nvim'
@@ -104,10 +110,12 @@ vnoremap <leader><leader> <esc>
 nnoremap <leader>gh :diffget //3<CR>
 nnoremap <leader>gu :diffget //2<CR>
 nnoremap <leader>gs :G<CR>
+nnoremap <leader>gb :G blame<CR>
 nnoremap <leader>vi :edit ~/.vim/vimrc<CR>
 map <Del> :w <CR> :!clear && g++ -g % -o %< && ./%< <CR>
 nnoremap <leader>b :ls<CR>:b<space>
 nnoremap <leader>w <C-w>
+nnoremap <leader>p :Prettier<CR>
 
 "===== resize windows ====="
 "nnoremap L :vertical res +10<CR>
@@ -205,8 +213,8 @@ nmap <silent> <leader>dr <Plug>(coc-references)
 nmap <silent> <leader>dt <Plug>(coc-type-definition)
 " vmap <leader>fo <Plug>(coc-format-selected)
 " nmap <leader>fo <Plug>(coc-format-selected)
-"
-inoremap <silent><expr> <c-space> coc#refresh()
+
+inoremap <silent><expr> <c-b> coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
@@ -393,6 +401,9 @@ let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -
 """""""""""""""""""""""""""""""""
 "nnoremap <leader>gd :G diff %<CR>
 
-lua <<EOF
--- print("Hello Lua")
+lua << EOF
+print('hello from lua')
+local set = vim.opt
+--[[ set.termguicolors = true]]
+-- " vim.cmd("colorscheme everforest")
 EOF
