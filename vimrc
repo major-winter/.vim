@@ -107,10 +107,6 @@ nnoremap <C-l> <C-w>l
 "===== Remap keys ====="
 inoremap <leader><leader> <esc>
 vnoremap <leader><leader> <esc>
-nnoremap <leader>gh :diffget //3<CR>
-nnoremap <leader>gu :diffget //2<CR>
-nnoremap <leader>gs :G<CR>
-nnoremap <leader>gb :G blame<CR>
 nnoremap <leader>vi :edit ~/.vim/vimrc<CR>
 map <Del> :w <CR> :!clear && g++ -g % -o %< && ./%< <CR>
 nnoremap <leader>b :ls<CR>:b<space>
@@ -278,6 +274,16 @@ endif
 "     \  })
 " endif
 
+"""""""""""""""""""""""""""""""""
+"         vim-fugitive          "
+"""""""""""""""""""""""""""""""""
+"nnoremap <leader>gd :G diff %<CR>
+nnoremap <leader>g :G<CR>
+nnoremap <leader>gh :diffget //3<CR>
+nnoremap <leader>gu :diffget //2<CR>
+nnoremap <leader>gs :G<CR>
+nnoremap <leader>gb :G blame<CR>
+
 """"""""""""""""""""""""""""""""
 "    vim-lsp keybindings       "
 """"""""""""""""""""""""""""""""
@@ -396,10 +402,6 @@ let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -
 " nnoremap ,vue :-1read $HOME/.vim/snippets/base.vue<CR>1jwf>a
 
 
-"""""""""""""""""""""""""""""""""
-"         vim-fugitive          "
-"""""""""""""""""""""""""""""""""
-"nnoremap <leader>gd :G diff %<CR>
 
 lua << EOF
 print('hello from lua')
