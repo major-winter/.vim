@@ -20,6 +20,7 @@ set expandtab
 set autoread
 set foldmethod=indent
 set nofoldenable
+set foldlevel=1
 set cursorline "highlight current line
 set clipboard=unnamed,unnamedplus " Copy into *, + registers"
 set scrolloff=10
@@ -37,6 +38,7 @@ set wildignore+=*/*.scss/
 set wildignore+=*/node_modules/*
 set wildignore+=*/logs/*
 set omnifunc=syntaxcomplete#Complete
+set termguicolors
 "set wildmode=longest,list
 "set backspace=indent,eol,start
 
@@ -65,6 +67,7 @@ Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'mileszs/ack.vim'
 Plugin 'neovim/nvim-lspconfig'
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'joshdick/onedark.vim'
 " Plugin 'prabirshrestha/asyncomplete.vim'
 " Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 " Plugin 'prabirshrestha/vim-lsp'
@@ -128,21 +131,24 @@ set nowb
 let NERDTreeShowHidden=1
 let NERDTreeShowLineNumbers=1
 
-"===== gruvbox ====="
-colorscheme everforest
+"-------------------------------------------------------------
+" Theme
+"-------------------------------------------------------------
+colorscheme onedark
 set background=dark
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-hi LineNr term=bold cterm=bold ctermfg=8 guifg=Grey guibg=grey9
-hi MatchParen term=bold cterm=bold ctermfg=LightCyan ctermbg=Grey
-hi Visual term=bold cterm=bold ctermfg=LightMagenta ctermbg=DarkGrey
-hi ColorColumn ctermbg=8
-"hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkred guifg=white
+hi MatchParen term=bold cterm=bold guifg=LightCyan guibg=Grey
+hi Visual guibg=#faf7ff
+hi CursorLine guibg=#484a4f
+hi ColorColumn guibg=#484a4f
+hi Normal guibg=#2A2A2A guifg=#D3E8D3 "change color in normal
+hi CursorLineNr guifg=#4cff9d
 
 "-------------------------------------------------------------
 " vim-airline
 "-------------------------------------------------------------
-let g:airline_theme="everforest"
+let g:airline_theme="onedark"
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -162,7 +168,6 @@ let g:airline_symbols.spell = 'Ꞩ'
 let g:airline_symbols.notexists = 'Ɇ'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_section_y=''
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
@@ -170,14 +175,6 @@ let airline#extensions#tabline#current_first = 1
 let g:airline#extensions#tabline#fnamemod = ':p:.'
 let g:airline#extensions#tabline#fnamecollapse = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#default#section_truncate_width = {
-    \ 'b': 79,
-    \ 'x': 60,
-    \ 'y': 88,
-    \ 'z': 45,
-    \ 'warning': 80,
-    \ 'error': 80,
-    \ }
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -393,10 +390,10 @@ let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -
 " nnoremap ,html :-1read $HOME/.vim/snippets/html:5.html<CR>5jwf>a
 " nnoremap ,vue :-1read $HOME/.vim/snippets/base.vue<CR>1jwf>a
 
-lua << EOF
-print('hello from lua')
-local set = vim.opt
---[[ set.termguicolors = true]]
--- " vim.cmd("colorscheme everforest")
-vim.cmd[[highlight matchParen ctermfg=black ctermbg=lightgreen]]
-EOF
+" lua << EOF
+" print('hello from lua')
+" local set = vim.opt
+" --[[ set.termguicolors = true]]
+" -- " vim.cmd("colorscheme everforest")
+" vim.cmd[[highlight matchParen ctermfg=black ctermbg=lightgreen]]
+" EOF
