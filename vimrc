@@ -20,9 +20,11 @@ set expandtab
 set autoread
 set foldmethod=indent
 set nofoldenable
+set foldlevel=1
 set cursorline "highlight current line
 set clipboard=unnamed,unnamedplus " Copy into *, + registers"
 set scrolloff=10
+set colorcolumn=80
 set completeopt-=preview
 set ignorecase
 set smartcase
@@ -36,6 +38,10 @@ set wildignore+=*/*.scss/
 set wildignore+=*/node_modules/*
 set wildignore+=*/logs/*
 set omnifunc=syntaxcomplete#Complete
+set termguicolors
+set t_Co=256
+set t_AB=^[[48;5;%dm
+set t_AF=^[[38;5;%dm
 "set wildmode=longest,list
 "set backspace=indent,eol,start
 
@@ -45,7 +51,6 @@ silent! helptags ALL
 set rtp+=~/.vim/bundle/Vundle.vim
 "===== Plugins ======"
 call vundle#begin()
-
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'preservim/nerdtree'
 Plugin 'vim-airline/vim-airline'
@@ -65,30 +70,24 @@ Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'mileszs/ack.vim'
 Plugin 'neovim/nvim-lspconfig'
 Plugin 'ryanoasis/vim-devicons'
-" Plugin 'prabirshrestha/asyncomplete.vim'
-" Plugin 'prabirshrestha/asyncomplete-lsp.vim'
-" Plugin 'ryanoasis/vim-devicons'
-" Plugin 'prabirshrestha/vim-lsp'
-" Plugin 'mattn/vim-lsp-settings'
+Plugin 'joshdick/onedark.vim'
 " Plugin 'prabirshrestha/asyncomplete.vim'
 " Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 " Plugin 'prabirshrestha/vim-lsp'
 " Plugin 'mattn/vim-lsp-settings'
-" Plugin 'jose-elias-alvarez/null-ls.nvim'
 " Plugin 'jose-elias-alvarez/nvim-lsp-ts-utils'
 "Plugin 'preservim/nerdcommenter'
 " Plugin 'tpope/vim-commentary'
 "Plugin 'ycm-core/YouCompleteMe'
 "Plugin 'dense-analysis/ale'
 "Plugin 'fatih/vim-go'
-"===https://github.com/airblade/vim-gitgutter
-"==="
 "Plugin 'puremourning/vimspector'
 "Plugin 'mattn/emmet-vim'
-
 call vundle#end()
 
-"===== Disable arrow keys ====="
+"-------------------------------------------------------------
+" Disable arrow keys
+"-------------------------------------------------------------
 inoremap <Left> <nop>
 inoremap <Right> <nop>
 inoremap <Up> <nop>
@@ -98,13 +97,13 @@ nnoremap <Right> <nop>
 nnoremap <Up> <nop>
 nnoremap <Down> <nop>
 
-"===== Remap navigation keys ====="
+"-------------------------------------------------------------
+" Mappings
+"-------------------------------------------------------------
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
-"===== Remap keys ====="
 inoremap <leader><leader> <esc>
 vnoremap <leader><leader> <esc>
 nnoremap <leader>vi :edit ~/.vim/vimrc<CR>
@@ -112,44 +111,47 @@ map <Del> :w <CR> :!clear && g++ -g % -o %< && ./%< <CR>
 nnoremap <leader>b :ls<CR>:b<space>
 nnoremap <leader>w <C-w>
 nnoremap <leader>p :Prettier<CR>
+tnoremap <Esc> <C-\><C-n>
+nnoremap <C-p> :<C-u>FZF<CR>
 
-"===== resize windows ====="
+"----- Nerdtree -----
+nnoremap <leader>no :NERDTreeToggle<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
+
+"----- resize windows -----
 "nnoremap L :vertical res +10<CR>
 "nnoremap H :vertical res -10<CR>
 
-"===== remap terminal keybindings ====="
-tnoremap <Esc> <C-\><C-n>
-
-"===== fzf mapping ====="
-nnoremap <C-p> :<C-u>FZF<CR>
-
-"===== Turn off swap files ====="
+"-------------------------------------------------------------
+" Turn off swap files
+"-------------------------------------------------------------
 set noswapfile
 set nobackup
 set nowb
 
-"===== Nerdtree ====="
-nnoremap <leader>no :NERDTreeToggle<CR>
-nnoremap <leader>nf :NERDTreeFind<CR>
 
 " Show hidden file by default
 let NERDTreeShowHidden=1
 let NERDTreeShowLineNumbers=1
 
-"===== gruvbox ====="
-colorscheme everforest
+"-------------------------------------------------------------
+" Theme
+"-------------------------------------------------------------
+colorscheme onedark
 set background=dark
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-hi LineNr term=bold cterm=bold ctermfg=8 guifg=Grey guibg=grey9
-hi MatchParen term=bold cterm=bold ctermfg=LightCyan ctermbg=Grey
-hi Visual term=bold cterm=bold ctermfg=LightMagenta ctermbg=DarkGrey
-"hi CursorLine   cterm=NONE ctermbg=darkgrey ctermfg=white guibg=darkred guifg=white
+hi MatchParen term=bold cterm=bold guifg=LightCyan guibg=Grey
+hi Visual guibg=#57745D
+hi CursorLine gui=none guibg=#484a4f cterm=bold
+hi ColorColumn guibg=#484a4f
+hi Normal guibg=#2A2A2A guifg=#D3E8D3 "change color in normal
+hi CursorLineNr guifg=#4cff9d
 
-""""""""""""""""""""""""""""""""
-"         vim-airline          "
-""""""""""""""""""""""""""""""""
-let g:airline_theme="everforest"
+"-------------------------------------------------------------
+" vim-airline
+"-------------------------------------------------------------
+let g:airline_theme="onedark"
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -169,7 +171,6 @@ let g:airline_symbols.spell = 'Ꞩ'
 let g:airline_symbols.notexists = 'Ɇ'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_section_y=''
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
@@ -177,14 +178,6 @@ let airline#extensions#tabline#current_first = 1
 let g:airline#extensions#tabline#fnamemod = ':p:.'
 let g:airline#extensions#tabline#fnamecollapse = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#default#section_truncate_width = {
-    \ 'b': 79,
-    \ 'x': 60,
-    \ 'y': 88,
-    \ 'z': 45,
-    \ 'warning': 80,
-    \ 'error': 80,
-    \ }
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -197,16 +190,15 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>0 <Plug>AirlineSelectTab0
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
-" let g:airline_symbols.branch = '⎇'
 
-""""""""""""""""""""""""""""""""
-"      Coc code navigation     "
-""""""""""""""""""""""""""""""""
-" nmap <buffer> <C-j>d <Plug>(coc-definition)
+"-------------------------------------------------------------
+" coc-nvim
+"-------------------------------------------------------------
 nmap <silent> <leader>dd <Plug>(coc-definition)
 nmap <silent> <leader>di <Plug>(coc-implementation)
 nmap <silent> <leader>dr <Plug>(coc-references)
 nmap <silent> <leader>dt <Plug>(coc-type-definition)
+" nmap <buffer> <C-j>d <Plug>(coc-definition)
 " vmap <leader>fo <Plug>(coc-format-selected)
 " nmap <leader>fo <Plug>(coc-format-selected)
 
@@ -239,17 +231,17 @@ try
     nmap <silent> [e :call CocAction('diagnosticPrevious')<cr>
 endtry
 
+hi CocErrorVirtualText ctermfg=203 ctermbg=237
 " hi CocErrorSign ctermfg=DarkRed guibg=#d1666a
 " hi CocInfoSign guibg=#353b45
 " hi CocWarningSign guifg=#d1cd66 guibg=#d1cd66
 " hi CocErrorHighlight ctermfg=DarkRed  guifg=#ff0000
 " hi CocErrorLine ctermfg=DarkRed  guifg=#d1666a
-hi CocErrorVirtualText ctermfg=203 ctermbg=237
 " hi CocWarningVirtualText ctermfg=DarkRed  guifg=#ff0000
 
-""""""""""""""""""""""""""""""""
-"           vim-lsp            "
-""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------
+" vim-lsp
+"-------------------------------------------------------------
 let g:lsp_log_file = expand('~/lsp-log.log')
 let g:lsp_settings_filetype_javascript=['typescript-language-server']
 let g:lsp_settings_filetype_typescript=['typescript-language-server']
@@ -274,15 +266,15 @@ endif
 "     \  })
 " endif
 
-"""""""""""""""""""""""""""""""""
-"         vim-fugitive          "
-"""""""""""""""""""""""""""""""""
-"nnoremap <leader>gd :G diff %<CR>
+"-------------------------------------------------------------
+" vim-fugitive
+"-------------------------------------------------------------
 nnoremap <leader>g :G<CR>
 nnoremap <leader>gh :diffget //3<CR>
 nnoremap <leader>gu :diffget //2<CR>
 nnoremap <leader>gs :G<CR>
 nnoremap <leader>gb :G blame<CR>
+"nnoremap <leader>gd :G diff %<CR>
 
 """"""""""""""""""""""""""""""""
 "    vim-lsp keybindings       "
@@ -401,11 +393,10 @@ let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -
 " nnoremap ,html :-1read $HOME/.vim/snippets/html:5.html<CR>5jwf>a
 " nnoremap ,vue :-1read $HOME/.vim/snippets/base.vue<CR>1jwf>a
 
-
-
-lua << EOF
-print('hello from lua')
-local set = vim.opt
---[[ set.termguicolors = true]]
--- " vim.cmd("colorscheme everforest")
-EOF
+" lua << EOF
+" print('hello from lua')
+" local set = vim.opt
+" --[[ set.termguicolors = true]]
+" -- " vim.cmd("colorscheme everforest")
+" vim.cmd[[highlight matchParen ctermfg=black ctermbg=lightgreen]]
+" EOF
