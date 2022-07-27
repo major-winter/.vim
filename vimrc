@@ -39,6 +39,9 @@ set wildignore+=*/node_modules/*
 set wildignore+=*/logs/*
 set omnifunc=syntaxcomplete#Complete
 set termguicolors
+set t_Co=256
+set t_AB=^[[48;5;%dm
+set t_AF=^[[38;5;%dm
 "set wildmode=longest,list
 "set backspace=indent,eol,start
 
@@ -139,11 +142,11 @@ set background=dark
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 hi MatchParen term=bold cterm=bold guifg=LightCyan guibg=Grey
-hi Visual guibg=#faf7ff
-hi CursorLine guibg=#484a4f
-hi ColorColumn guibg=#484a4f
-hi Normal guibg=#2A2A2A guifg=#D3E8D3 "change color in normal
-hi CursorLineNr guifg=#4cff9d
+hi Visual guibg=#808080
+hi CursorLine gui=none guibg=#484a4f cterm=bold
+hi ColorColumn guibg=#abb2bf
+hi Normal guibg=#282c34 guifg=#D3E8D3 "change color in normal
+hi CursorLineNr guifg=#98c379
 
 "-------------------------------------------------------------
 " vim-airline
@@ -262,6 +265,19 @@ endif
 "     \ 'allowlist': ['javascript', 'typescript'],
 "     \  })
 " endif
+"
+"
+ noremap <silent> <leader>om :call OpenMarkdownPreview()<cr>
+
+function! OpenMarkdownPreview() abort
+  if exists('s:markdown_job_id') && s:markdown_job_id > 0
+    call jobstop(s:markdown_job_id)
+    unlet s:markdown_job_id
+  endif
+  let s:markdown_job_id = jobstart('grip ' . shellescape(expand('%:p')))
+  if s:markdown_job_id <= 0 | return | endif
+  call system('open http://localhost:6419')
+endfunction
 
 "-------------------------------------------------------------
 " vim-fugitive
