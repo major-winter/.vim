@@ -71,6 +71,7 @@ Plugin 'mileszs/ack.vim'
 Plugin 'neovim/nvim-lspconfig'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'joshdick/onedark.vim'
+Plugin 'iamcco/markdown-preview.nvim'
 " Plugin 'prabirshrestha/asyncomplete.vim'
 " Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 " Plugin 'prabirshrestha/vim-lsp'
@@ -141,13 +142,13 @@ colorscheme onedark
 set background=dark
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-hi MatchParen term=bold cterm=bold guifg=LightCyan guibg=Grey
-hi Visual guibg=#808080
-hi CursorLine gui=none guibg=#484a4f cterm=bold
-hi ColorColumn guibg=#abb2bf
-hi Normal guibg=#282c34 guifg=#D3E8D3 "change color in normal
-hi CursorLineNr guifg=#98c379
 
+hi MatchParen gui=NONE guibg=#6A6A6A
+hi Visual term=bold cterm=NONE guibg=#808080
+hi CursorLine term=bold cterm=NONE guibg=#484a4f
+hi ColorColumn term=bold cterm=NONE guibg=#484a4f
+hi Normal term=bold cterm=NONE guibg=#282c34 guifg=#D3E8D3 "change color in normal
+hi CursorLineNr term=bold cterm=NONE guifg=#98c379
 "-------------------------------------------------------------
 " vim-airline
 "-------------------------------------------------------------
@@ -410,6 +411,6 @@ let $FZF_DEFAULT_COMMAND='find . \( -name node_modules -o -name .git \) -prune -
 " print('hello from lua')
 " local set = vim.opt
 " --[[ set.termguicolors = true]]
-" -- " vim.cmd("colorscheme everforest")
+" -- ' vim.cmd("colorscheme everforest")
 " vim.cmd[[highlight matchParen ctermfg=black ctermbg=lightgreen]]
 " EOF
