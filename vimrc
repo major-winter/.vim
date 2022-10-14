@@ -20,7 +20,7 @@ set expandtab
 set autoread
 set foldmethod=indent
 set nofoldenable
-set foldlevel=1
+set foldlevel=2
 set cursorline "highlight current line
 set clipboard=unnamed,unnamedplus " Copy into *, + registers"
 set scrolloff=10
@@ -149,6 +149,7 @@ hi CursorLine term=bold cterm=NONE guibg=#484a4f
 hi ColorColumn term=bold cterm=NONE guibg=#484a4f
 hi Normal term=bold cterm=NONE guibg=#282c34 guifg=#D3E8D3 "change color in normal
 hi CursorLineNr term=bold cterm=NONE guifg=#98c379
+hi Comment gui=NONE guifg=#979797
 "-------------------------------------------------------------
 " vim-airline
 "-------------------------------------------------------------
@@ -204,11 +205,20 @@ nmap <silent> <leader>dt <Plug>(coc-type-definition)
 " nmap <leader>fo <Plug>(coc-format-selected)
 
 inoremap <silent><expr> <c-b> coc#refresh()
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nnoremap <silent> K :call ShowDocumentation()<CR>
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
