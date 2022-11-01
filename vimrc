@@ -193,10 +193,19 @@ nmap <leader>0 <Plug>AirlineSelectTab0
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
 
+
+"-------------------------------------------------------------
+" clang-format
+"-------------------------------------------------------------
+map <leader>f :pyf /usr/share/clang/clang-format-11/clang-format.py<cr>
+imap <C-K> <c-o>:pyf /usr/share/clang/clang-format-11/clang-format.py<cr>
+let g:python_host_prog = '/usr/bin/python3'
+
 "-------------------------------------------------------------
 " coc-nvim
 "-------------------------------------------------------------
 nmap <silent> <leader>dd <Plug>(coc-definition)
+nmap <silent> <leader>dc <Plug>(coc-declaration)
 nmap <silent> <leader>di <Plug>(coc-implementation)
 nmap <silent> <leader>dr <Plug>(coc-references)
 nmap <silent> <leader>dt <Plug>(coc-type-definition)
