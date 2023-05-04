@@ -72,6 +72,7 @@ Plugin 'neovim/nvim-lspconfig'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'joshdick/onedark.vim'
 Plugin 'iamcco/markdown-preview.nvim'
+Plugin 'SirVer/ultisnips'
 " Plugin 'prabirshrestha/asyncomplete.vim'
 " Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 " Plugin 'prabirshrestha/vim-lsp'
@@ -203,6 +204,7 @@ let g:python_host_prog = '/usr/bin/python3'
 
 "-------------------------------------------------------------
 " coc-nvim
+" :h coc-nvim
 "-------------------------------------------------------------
 nmap <silent> <leader>dd <Plug>(coc-definition)
 nmap <silent> <leader>dc <Plug>(coc-declaration)
@@ -214,19 +216,22 @@ nmap <silent> <leader>dt <Plug>(coc-type-definition)
 " nmap <leader>fo <Plug>(coc-format-selected)
 
 inoremap <silent><expr> <c-b> coc#refresh()
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  function! CheckBackspace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction
 
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+  " Insert <tab> when previous text is space, refresh completion if not.
+  inoremap <silent><expr> <TAB>
+	\ coc#pum#visible() ? coc#pum#next(1):
+	\ CheckBackspace() ? "\<Tab>" :
+	\ coc#refresh()
+  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice.
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 function! ShowDocumentation()
