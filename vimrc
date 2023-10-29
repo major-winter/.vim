@@ -139,7 +139,7 @@ let NERDTreeShowLineNumbers=1
 "-------------------------------------------------------------
 " Theme
 "-------------------------------------------------------------
-colorscheme onedark
+colorscheme gruvbox
 set background=dark
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -154,7 +154,7 @@ hi Comment gui=NONE guifg=#979797
 "-------------------------------------------------------------
 " vim-airline
 "-------------------------------------------------------------
-let g:airline_theme="onedark"
+let g:airline_theme="ayu_dark"
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -171,7 +171,8 @@ let g:airline_symbols.linenr = '¶'
 let g:airline_symbols.maxlinenr = '㏑'
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = 'Ɇ'
+" let g:airline_symbols.notexists = 'Ɇ'
+let g:airline_symbols.notexists = '?'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
@@ -198,19 +199,19 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 "-------------------------------------------------------------
 " clang-format
 "-------------------------------------------------------------
-map <leader>f :pyf /usr/share/clang/clang-format-11/clang-format.py<cr>
-imap <C-K> <c-o>:pyf /usr/share/clang/clang-format-11/clang-format.py<cr>
+map <leader>f :py3f /usr/share/clang/clang-format-11/clang-format.py<cr>
+imap <C-K> <c-o>:py3f /usr/share/clang/clang-format-11/clang-format.py<cr>
 let g:python_host_prog = '/usr/bin/python3'
 
 "-------------------------------------------------------------
 " coc-nvim
 " :h coc-nvim
 "-------------------------------------------------------------
-nmap <silent> <leader>dd <Plug>(coc-definition)
-nmap <silent> <leader>dc <Plug>(coc-declaration)
-nmap <silent> <leader>di <Plug>(coc-implementation)
-nmap <silent> <leader>dr <Plug>(coc-references)
-nmap <silent> <leader>dt <Plug>(coc-type-definition)
+nmap <silent> <leader>cd <Plug>(coc-definition)
+nmap <silent> <leader>cc <Plug>(coc-declaration)
+nmap <silent> <leader>ci <Plug>(coc-implementation)
+nmap <silent> <leader>cr <Plug>(coc-references)
+nmap <silent> <leader>ct <Plug>(coc-type-definition)
 " nmap <buffer> <C-j>d <Plug>(coc-definition)
 " vmap <leader>fo <Plug>(coc-format-selected)
 " nmap <leader>fo <Plug>(coc-format-selected)
